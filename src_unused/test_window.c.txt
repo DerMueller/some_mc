@@ -1,0 +1,18 @@
+// this is the main entry point of the game
+// created 27.10.2026
+
+#include <raylib.h>
+
+int main(void)
+{
+    InitWindow(800, 450, "raylib example - basic window");
+    SetTargetFPS(60);
+    while (!WindowShouldClose())
+    {
+        BeginDrawing();
+        ClearBackground(VIOLET);
+        EndDrawing();
+    }
+    CloseWindow();
+    return 0;
+}
