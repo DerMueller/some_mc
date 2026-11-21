@@ -54,6 +54,11 @@ int generateChunk(int chunkX, int chunkY) {
                             (y+chunkY*CHUNK_SIZE)*0.1f*factorE5)*2.0);
             height += (open_simplex_noise2(open_simplex_ctx,(x+chunkX*CHUNK_SIZE)*0.1f*factorE0,
                             (y+chunkY*CHUNK_SIZE)*0.1f*factorE0)*60.0);
+            float r_hg = (Perlin2D(perlin_ctx,(x+chunkX*CHUNK_SIZE)*0.087f*factorE0,
+                            (y+chunkY*CHUNK_SIZE)*0.1055f*factorE0));
+            r_hg = (0.6f - fabsf(r_hg - 0.6f))*20.0f;
+            r_hg = (r_hg * r_hg) / 144.0f;
+            height -= r_hg * 8.0;
             blockPositions[x * CHUNK_SIZE + y + chunkX * CHUNK_SIZE * CHUNK_SIZE + chunkY * CHUNK_SIZE * CHUNK_SIZE * CHUNKS] = 
                 (Vector3){ 
                     (x+chunkX*CHUNK_SIZE) + 0.5f, 
@@ -310,22 +315,22 @@ int main(void) {
             DrawText("- Zoom keys: num-plus, num-minus or mouse scroll", 15, 75, 10, BLACK);
             DrawText("- Camera projection key: P", 15, 90, 10, BLACK);
 
-            DrawRectangle(600, 5, 195, 100, Fade(SKYBLUE, 0.5f));
-            DrawRectangleLines(600, 5, 195, 100, BLUE);
+            DrawRectangle(SCREEN_WIDTH-200, 5, 195, 100, Fade(SKYBLUE, 0.5f));
+            DrawRectangleLines(SCREEN_WIDTH-200, 5, 195, 100, BLUE);
 
-            DrawText("Camera status:", 610, 15, 10, BLACK);
+            DrawText("Camera status:", SCREEN_WIDTH-190, 15, 10, BLACK);
             DrawText(TextFormat("- Mode: %s", (cameraMode == CAMERA_FREE) ? "FREE" :
                                               (cameraMode == CAMERA_FIRST_PERSON) ? "FIRST_PERSON" :
                                               (cameraMode == CAMERA_THIRD_PERSON) ? "THIRD_PERSON" :
-                                              (cameraMode == CAMERA_ORBITAL) ? "ORBITAL" : "CUSTOM"), 610, 30, 10, BLACK);
+                                              (cameraMode == CAMERA_ORBITAL) ? "ORBITAL" : "CUSTOM"), SCREEN_WIDTH-190, 30, 10, BLACK);
             DrawText(TextFormat("- Projection: %s", (camera.projection == CAMERA_PERSPECTIVE) ? "PERSPECTIVE" :
-                                                    (camera.projection == CAMERA_ORTHOGRAPHIC) ? "ORTHOGRAPHIC" : "CUSTOM"), 610, 45, 10, BLACK);
-            DrawText(TextFormat("- Position: (%06.3f, %06.3f, %06.3f)", camera.position.x, camera.position.y, camera.position.z), 610, 60, 10, BLACK);
-            DrawText(TextFormat("- Target: (%06.3f, %06.3f, %06.3f)", camera.target.x, camera.target.y, camera.target.z), 610, 75, 10, BLACK);
-            DrawText(TextFormat("- Up: (%06.3f, %06.3f, %06.3f)", camera.up.x, camera.up.y, camera.up.z), 610, 90, 10, BLACK);
+                                                    (camera.projection == CAMERA_ORTHOGRAPHIC) ? "ORTHOGRAPHIC" : "CUSTOM"), SCREEN_WIDTH-190, 45, 10, BLACK);
+            DrawText(TextFormat("- Position: (%06.3f, %06.3f, %06.3f)", camera.position.x, camera.position.y, camera.position.z), SCREEN_WIDTH-190, 60, 10, BLACK);
+            DrawText(TextFormat("- Target: (%06.3f, %06.3f, %06.3f)", camera.target.x, camera.target.y, camera.target.z), SCREEN_WIDTH-190, 75, 10, BLACK);
+            DrawText(TextFormat("- Up: (%06.3f, %06.3f, %06.3f)", camera.up.x, camera.up.y, camera.up.z), SCREEN_WIDTH-190, 90, 10, BLACK);
 
             if (isPaused) {
-                DrawText("PAUSED", 450, 15, 20, BLACK);
+                DrawText("PAUSED", SCREEN_WIDTH/2-15, 15, 20, BLACK);
             }
 
         EndDrawing();
